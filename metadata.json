@@ -1,0 +1,6 @@
+{
+  "name": "Passant Nursing - منصة التمريض المنزلي والحجامة",
+  "description": "تطبيق باسانت للتمريض المنزلي وخدمات الحجامة الطبية - حجز فوري وتتبع مباشر لمقدمي الرعاية المعتمدين مع نظام طبي آمن وسجلات متكاملة.",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

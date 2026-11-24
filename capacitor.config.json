@@ -1,0 +1,11 @@
+{
+  "appId": "com.passant.healthcare",
+  "appName": "Passant Healthcare",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https"
+  },
+  "android": {
+    "allowMixedContent": true
+  }
+}

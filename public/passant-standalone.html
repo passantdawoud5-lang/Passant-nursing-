@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Passant Healthcare - التمريض المنزلي · العلاج الطبيعي · الحجامة</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Cairo -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Cairo', sans-serif; }
+    .tab-active { background-color: #0d9488 !important; color: #ffffff !important; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col antialiased">
+
+  <!-- 1. الشريط العلوي للطوارئ والتواصل -->
+  <header class="bg-slate-900 text-white text-xs py-2 px-4 shadow-sm">
+    <div class="max-w-6xl mx-auto flex flex-wrap justify-between items-center gap-2">
+      <div class="flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span class="font-extrabold text-teal-300">طاقم التمريض في خدمة 24 ساعة</span>
+        <span class="text-slate-400 hidden sm:inline">| رعاية تمريضية · علاج طبيعي · حجامة</span>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a href="mailto:passantnursing@gmail.com" class="text-slate-300 hover:text-white flex items-center gap-1 font-mono">
+          ✉️ passantnursing@gmail.com
+        </a>
+        <a href="https://www.facebook.com/share/19jXU5Qqk5/?mibextid=wwXIfr" target="_blank" class="text-blue-400 hover:text-blue-300 font-bold">فيسبوك</a>
+        <a href="https://www.instagram.com/passantnursing?exln=bGVhdDk0ZWpydjZz&utm_source=qr" target="_blank" class="text-pink-400 hover:text-pink-300 font-bold">انستغرام</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- 2. النافبار والتنقل -->
+  <nav class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-xs">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-4">
+      <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('home-view')">
+        <div class="w-10 h-10 rounded-xl bg-teal-600 text-white flex items-center justify-center font-black text-xl shadow-md">
+          P
+        </div>
+        <div>
+          <h1 class="text-lg font-black text-slate-900 leading-tight">Passant Healthcare</h1>
+          <p class="text-[11px] text-teal-700 font-bold">رعاية منزلية طبية وتأهيل متكامل</p>
+        </div>
+      </div>
+
+      <!-- أزرار التنقل السريع -->
+      <div class="flex flex-wrap items-center gap-1.5 text-xs font-bold">
+        <button onclick="switchTab('nursing-view')" class="tab-btn px-3 py-1.5 rounded-xl border border-teal-200 bg-teal-50 text-teal-800 hover:bg-teal-100 transition-all">
+          🩺 حجز تمريض منزلي
+        </button>
+        <button onclick="switchTab('pt-view')" class="tab-btn px-3 py-1.5 rounded-xl border border-blue-200 bg-blue-50 text-blue-800 hover:bg-blue-100 transition-all">
+          🏃 حجز علاج طبيعي
+        </button>
+        <button onclick="switchTab('cupping-view')" class="tab-btn px-3 py-1.5 rounded-xl border border-amber-200 bg-amber-50 text-amber-800 hover:bg-amber-100 transition-all">
+          🩸 حجز حجامة
+        </button>
+        <button onclick="switchTab('directory-view')" class="tab-btn px-3 py-1.5 rounded-xl border border-slate-200 bg-white text-slate-700 hover:bg-slate-100 transition-all">
+          👥 دليل الكوادر
+        </button>
+        <button onclick="switchTab('join-view')" class="tab-btn px-3 py-1.5 rounded-xl border border-emerald-300 bg-emerald-50 text-emerald-800 hover:bg-emerald-100 transition-all">
+          💼 انضم كمعالج / مساعد
+        </button>
+        <button onclick="switchTab('admin-view')" class="tab-btn px-3 py-1.5 rounded-xl bg-slate-800 text-white hover:bg-slate-900 transition-all">
+          ⚙️ الإدارة (<span id="orders-badge">1</span>)
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 3. المحتوى المتغير للواجهات -->
+  <main class="max-w-5xl mx-auto px-4 py-8 flex-1 w-full space-y-8">
+
+    <!-- الواجهة الرئيسية (Home) -->
+    <section id="home-view" class="space-y-6">
+      <div class="bg-gradient-to-br from-teal-900 via-slate-900 to-teal-950 text-white rounded-3xl p-6 sm:p-10 shadow-xl border border-teal-800/40 text-right space-y-4">
+        <div class="inline-flex items-center gap-2 bg-teal-500/20 text-teal-300 px-3 py-1 rounded-full text-xs font-bold border border-teal-500/30">
+          <span>✨</span>
+          <span>طاقم التمريض في خدمة 24 ساعة</span>
+        </div>
+        <h2 class="text-2xl sm:text-4xl font-black leading-tight text-white">
+          أسرع رعاية طبية وتمريضية وعلاج طبيعي حتى باب منزلك
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-300 max-w-2xl leading-relaxed">
+          نخبة من الممرضين وأطباء العلاج الطبيعي وممارسي الحجامة المعتمدين، مع ميزة إحضار الأدوية وتوفير مساعدين متدربين للمساعدة في حركة وتأهيل المرضى.
+        </p>
+
+        <!-- كروت الخدمات الثلاث -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-4">
+          <div onclick="switchTab('nursing-view')" class="bg-white/10 hover:bg-white/15 p-4 rounded-2xl border border-white/10 cursor-pointer transition-all hover:scale-[1.02]">
+            <span class="text-2xl block mb-1">🩺</span>
+            <h3 class="font-bold text-sm text-white">التمريض المنزلي</h3>
+            <p class="text-[11px] text-slate-300 mt-1">تركيب كانيولا، محاليل، حقن، غيار جروح معقم، مع خدمة إحضار الأدوية (+30 ج.م).</p>
+            <span class="text-[11px] text-teal-300 font-bold block mt-2">احجز زيارة تمريض ←</span>
+          </div>
+
+          <div onclick="switchTab('pt-view')" class="bg-white/10 hover:bg-white/15 p-4 rounded-2xl border border-white/10 cursor-pointer transition-all hover:scale-[1.02]">
+            <span class="text-2xl block mb-1">🏃</span>
+            <h3 class="font-bold text-sm text-white">العلاج الطبيعي والتأهيل</h3>
+            <p class="text-[11px] text-slate-300 mt-1">تأهيل جلطات ومفاصل بأجهزة محمولة، وتحديد سعر الجلسة بالبروفايل، وإمكانية طلب مساعد مرافق.</p>
+            <span class="text-[11px] text-blue-300 font-bold block mt-2">احجز جلسة تأهيل ←</span>
+          </div>
+
+          <div onclick="switchTab('cupping-view')" class="bg-white/10 hover:bg-white/15 p-4 rounded-2xl border border-white/10 cursor-pointer transition-all hover:scale-[1.02]">
+            <span class="text-2xl block mb-1">🩸</span>
+            <h3 class="font-bold text-sm text-white">الحجامة الطبية</h3>
+            <p class="text-[11px] text-slate-300 mt-1">حجامة دموية وجافة بأدوات أحادية الاستخدام مع فحص طبي إلزامي ومحدد للسلامة.</p>
+            <span class="text-[11px] text-amber-300 font-bold block mt-2">احجز جلسة حجامة ←</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 1. فورم حجز زيارة التمريض المنزلي -->
+    <section id="nursing-view" class="hidden bg-white rounded-3xl border border-slate-200 shadow-md p-6 sm:p-8 space-y-6 text-right">
+      <div class="border-b border-slate-100 pb-4">
+        <span class="text-xs font-bold text-teal-600 bg-teal-50 px-2.5 py-0.5 rounded-full border border-teal-200">التمريض المنزلي المعتمد</span>
+        <h2 class="text-xl sm:text-2xl font-black text-slate-900 mt-2">طلب زيارة تمريض منزلي</h2>
+        <p class="text-xs text-slate-500 mt-0.5">الأسعار بالاتفاق المباشر العادل بين الممرض والعميل</p>
+      </div>
+
+      <form id="nursingForm" onsubmit="submitNursingOrder(event)" class="space-y-5">
+        <!-- 1. بيانات المريض -->
+        <div class="space-y-3 bg-slate-50 p-4 rounded-2xl border border-slate-200">
+          <h3 class="text-xs sm:text-sm font-bold text-slate-900">1. بيانات المريض</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">اسم المريض *</label>
+              <input type="text" id="nurse_name" required placeholder="الاسم ثلاثي" class="w-full text-xs p-2.5 bg-white border border-slate-300 rounded-xl outline-none focus:border-teal-500">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">رقم الهاتف للتواصل *</label>
+              <input type="tel" id="nurse_phone" required placeholder="01xxxxxxxxx" class="w-full text-xs p-2.5 bg-white border border-slate-300 rounded-xl outline-none focus:border-teal-500">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">عمر المريض *</label>
+              <input type="number" id="nurse_age" required min="1" max="110" placeholder="العمر" class="w-full text-xs p-2.5 bg-white border border-slate-300 rounded-xl outline-none focus:border-teal-500">
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. نوع الخدمة والموعد -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">الخدمة التمريضية المطلوبة *</label>
+            <select id="nurse_service" class="w-full text-xs p-2.5 bg-white border border-slate-300 rounded-xl outline-none focus:border-teal-500 font-semibold">
+              <option value="تركيب كانيولا وإعطاء محاليل وريدية">تركيب كانيولا وإعطاء محاليل وريدية</option>
+              <option value="إعطاء حقن عضل / وريد / تحت الجلد">إعطاء حقن عضل / وريد / تحت الجلد</option>
+              <option value="غيار معقم على الجروح وقرح الفراش">غيار معقم على الجروح وقرح الفراش</option>
+              <option value="تركيب قسطرة بولية منزلية">تركيب قسطرة بولية منزلية</option>
+              <option value="شفت رعاية ومتابعة علامات حيوية">شفت رعاية ومتابعة علامات حيوية</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">طبيعة التوقيت *</label>
+            <select id="nurse_timing" class="w-full text-xs p-2.5 bg-white border border-slate-300 rounded-xl outline-none focus:border-teal-500 font-semibold">
+              <option value="تحديد معاد">تحديد معاد مناسب</option>
+              <option value="فوري (وصول سريع 20-30 دقيقة)">فوري (وصول سريع 20-30 دقيقة)</option>
+              <option value="مستعجل (استدعاء طارئ بأولوية قصوى)">مستعجل (استدعاء طارئ بأولوية قصوى)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- 3. عنوان الزيارة وتثبيت اللوكيشن الإلزامي -->
+        <div class="space-y-3 bg-teal-50/40 p-4 rounded-2xl border border-teal-300">
+          <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-teal-200">
+            <div class="flex items-center gap-2">
+              <h3 class="text-xs sm:text-sm font-bold text-slate-900">3. عنوان الزيارة وتثبيت اللوكيشن</h3>
+              <span id="nurse_loc_badge" class="text-[10px] px-2 py-0.5 rounded-full font-bold bg-rose-100 text-rose-800 border border-rose-300 animate-pulse">
+                مطلوب إلزامي ⚠️
+              </span>
+            </div>
+            <button type="button" onclick="detectGPS('nurse_address', 'nurse_loc_badge')" class="text-xs font-bold bg-teal-600 hover:bg-teal-700 text-white px-3 py-1.5 rounded-xl shadow-xs transition-colors">
+              📍 تثبيت اللوكيشن عبر خريطة جوجل / GPS
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">المحافظة *</label>
+              <select id="nurse_gov" class="w-full text-xs p-2.5 bg-white border border-slate-300 rounded-xl outline-none focus:border-teal-500">
+                <option value="القاهرة">القاهرة</option>
+                <option value="الجيزة">الجيزة</option>
+                <option value="الإسكندرية">الإسكندرية</option>
+                <option value="القليوبية">القليوبية</option>
+                <option value="كافة المحافظات">كافة المحافظات</option>
+              </select>
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-semibold text-slate-700 mb-1">العنوان واللوكيشن بالتفصيل *</label>
+              <input type="text" id="nurse_address" required placeholder="اسم الشارع، رقم العمارة، الطابق، الشقة، علامة مميزة" class="w-full text-xs p-2.5 bg-white border border-slate-300 rounded-xl outline-none focus:border-teal-500">
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. خانة إحضار أدوية (+30 جنيه خدمة) -->
+        <div class="p-4 bg-teal-50/80 rounded-2xl border border-teal-300 space-y-2">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <h4 class="font-extrabold text-teal-950 text-xs sm:text-sm">💊 خانة إحضار أدوية من الصيدلية (+ 30 جنيه خدمة)</h4>
+              <p class="text-[11px] text-teal-800 mt-0.5">
+                يمكن للممرض شراء الأدوية والمحاليل والمستلزمات من أقرب صيدلية وإحضارها، مع إضافة فاتورة الصيدلية الفعلية ورسوم خدمة 30 ج.م فقط.
+              </p>
+            </div>
+            <input type="checkbox" id="nurse_med_needed" onchange="toggleMedInput()" class="w-5 h-5 accent-teal-600 rounded cursor-pointer shrink-0 mt-1">
+          </div>
+
+          <div id="nurse_med_box" class="hidden pt-2 border-t border-teal-200 space-y-2">
+            <label class="block text-xs font-bold text-teal-950">اكتب الأدوية أو المحاليل أو الحقن المطلوبة:</label>
+            <input type="text" id="nurse_med_details" placeholder="مثال: كانيولا زرقاء، محلول ملح 500 مل، سرنجة 5 سم، مسكن..." class="w-full text-xs p-2.5 bg-white border border-teal-300 rounded-xl outline-none">
+          </div>
+        </div>
+
+        <!-- 5. الأسئلة الطبية -->
+        <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-2.5 text-xs">
+          <span class="font-bold text-slate-900 block">الأسئلة الطبية لسلامة الإجراء:</span>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <input type="text" id="nurse_q1" required placeholder="الأمراض المزمنة (سكر/ضغط/قلب/لا يوجد)" class="p-2 bg-white border border-slate-200 rounded-lg">
+            <input type="text" id="nurse_q2" required placeholder="الأدوية التي يتناولها بانتظام" class="p-2 bg-white border border-slate-200 rounded-lg">
+            <input type="text" id="nurse_q3" required placeholder="هل توجد حساسية من أدوية معينة؟" class="p-2 bg-white border border-slate-200 rounded-lg">
+            <input type="text" id="nurse_q4" required placeholder="عمليات جراحية سابقة" class="p-2 bg-white border border-slate-200 rounded-lg">
+          </div>
+        </div>
+
+        <!-- طريقة الدفع المعتمدة -->
+        <div class="p-4 bg-teal-50/70 rounded-2xl border border-teal-200 space-y-2 text-xs">
+          <div class="flex flex-wrap justify-between items-center gap-2">
+            <span class="font-extrabold text-slate-900">💳 طريقة الدفع (إنستاباي أو فودافون كاش):</span>
+            <span class="font-mono font-black text-teal-900 bg-white px-2.5 py-1 rounded-lg border border-teal-200" dir="ltr">01034562904</span>
+          </div>
+          <select id="nurse_payment" class="w-full p-2.5 bg-white border border-slate-300 rounded-xl font-bold outline-none">
+            <option value="إنستاباي (InstaPay) - 01034562904">إنستاباي (InstaPay) على رقم 01034562904</option>
+            <option value="فودافون كاش (Vodafone Cash) - 01034562904">فودافون كاش (Vodafone Cash) على رقم 01034562904</option>
+          </select>
+        </div>
+
+        <button type="submit" class="w-full py-3 bg-teal-600 hover:bg-teal-700 text-white font-black text-sm rounded-xl transition-all shadow-md">
+          تأكيد وإرسال طلب زيارة التمريض ✓
+        </button>
+      </form>
+    </section>
+
+    <!-- 2. فورم حجز جلسة العلاج الطبيعي والتأهيل -->
+    <section id="pt-view" class="hidden bg-white rounded-3xl border border-slate-200 shadow-md p-6 sm:p-8 space-y-6 text-right">
+      <div class="border-b border-blue-100 pb-4">
+        <span class="text-xs font-bold text-blue-700 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-200">العلاج الطبيعي والتأهيل الحركي</span>
+        <h2 class="text-xl sm:text-2xl font-black text-slate-900 mt-2">طلب جلسة علاج طبيعي وتأهيل</h2>
+        <p class="text-xs text-slate-500 mt-0.5">سعر الجلسة محدد ومعلن ببروفايل دكتور العلاج الطبيعي (350 جنيه / جلسة)</p>
+      </div>
+
+      <form id="ptForm" onsubmit="submitPtOrder(event)" class="space-y-5">
+        <!-- بيانات المريض -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-slate-50 p-4 rounded-2xl border border-slate-200">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">اسم المريض *</label>
+            <input type="text" id="pt_name" required placeholder="الاسم بالكامل" class="w-full text-xs p-2.5 bg-white border border-slate-300 rounded-xl outline-none focus:border-blue-500">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">رقم الهاتف *</label>
+            <input type="tel" id="pt_phone" required placeholder="01xxxxxxxxx" class="w-full text-xs p-2.5 bg-white border border-slate-300 rounded-xl outline-none focus:border-blue-500">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">عمر المريض *</label>
+            <input type="number" id="pt_age" required min="1" max="110" placeholder="العمر" class="w-full text-xs p-2.5 bg-white border border-slate-300 rounded-xl outline-none focus:border-blue-500">
+          </div>
+        </div>
+
+        <!-- تثبيت اللوكيشن الإلزامي -->
+        <div class="space-y-3 bg-blue-50/50 p-4 rounded-2xl border border-blue-300">
+          <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-blue-200">
+            <div class="flex items-center gap-2">
+              <h3 class="text-xs sm:text-sm font-bold text-slate-900">عنوان الجلسة واللوكيشن</h3>
+              <span id="pt_loc_badge" class="text-[10px] px-2 py-0.5 rounded-full font-bold bg-rose-100 text-rose-800 border border-rose-300 animate-pulse">
+                مطلوب إلزامي ⚠️
+              </span>
+            </div>
+            <button type="button" onclick="detectGPS('pt_address', 'pt_loc_badge')" class="text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-xl shadow-xs transition-colors">
+              📍 تثبيت اللوكيشن عبر خريطة جوجل / GPS
+            </button>
+          </div>
+          <input type="text" id="pt_address" required placeholder="المحافظة، المنطقة، الشارع، العمارة بالتفصيل" class="w-full text-xs p-2.5 bg-white border border-slate-300 rounded-xl outline-none focus:border-blue-500">
+        </div>
+
+        <!-- 3. تشخيص الحالة السابق (الاسم الجديد المعتمد) -->
+        <div class="bg-gradient-to-br from-blue-50/50 to-teal-50/30 p-4 rounded-2xl border border-blue-200 space-y-3">
+          <h3 class="text-xs sm:text-sm font-black text-blue-950 flex items-center gap-2">
+            <span>🩺 3. تشخيص الحالة السابق</span>
+          </h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            <div>
+              <label class="block font-bold text-slate-800 mb-1">نوع الإصابة أو التشخيص السابق:</label>
+              <select id="pt_diagnosis" class="w-full p-2 bg-white border border-slate-300 rounded-xl outline-none">
+                <option value="تأهيل جلطات مخ وشلل نصفي">تأهيل جلطات مخ وشلل نصفي</option>
+                <option value="انزلاق غضروفي وفقرات وعرق نسا">انزلاق غضروفي وفقرات وعرق نسا</option>
+                <option value="تأهيل ما بعد الكسور والعمليات وتغيير المفاصل">تأهيل ما بعد الكسور والعمليات وتغيير المفاصل</option>
+                <option value="خشونة مفاصل والتهاب أوتار وتمزق أربطة">خشونة مفاصل والتهاب أوتار وتمزق أربطة</option>
+                <option value="تأهيل أطفال وتأخر حركي">تأهيل أطفال وتأخر حركي</option>
+              </select>
+            </div>
+            <div>
+              <label class="block font-bold text-slate-800 mb-1">مستوى القدرة الحركية الحالية:</label>
+              <select id="pt_mobility" class="w-full p-2 bg-white border border-slate-300 rounded-xl outline-none">
+                <option value="مريض طريح الفراش لا يستطيع الجلوس بمفرده">مريض طريح الفراش لا يستطيع الجلوس بمفرده</option>
+                <option value="يجلس بمساعدة ويحتاج سند للوقوف">يجلس بمساعدة ويحتاج سند للوقوف</option>
+                <option value="يمشي بمساعدة مشاية أو عكاز">يمشي بمساعدة مشاية أو عكاز</option>
+                <option value="يمشي بمفرده مع صعوبة أو ألم">يمشي بمفرده مع صعوبة أو ألم</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. ميزة طلب مساعد متدرب مرافق مع دكتور العلاج الطبيعي -->
+        <div class="p-4 bg-amber-50/80 rounded-2xl border border-amber-300 space-y-2">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <h4 class="font-extrabold text-amber-950 text-xs sm:text-sm">👥 طلب مساعد / متدرب مرافق مع دكتور العلاج الطبيعي</h4>
+              <p class="text-[11px] text-amber-800 mt-0.5">
+                هل ترغب في حضور مساعد متدرب معتمد لمعاونة الطبيب في رفع وتقليب المريض وتكرار التمارين بأمان؟
+              </p>
+            </div>
+            <input type="checkbox" id="pt_assistant" class="w-5 h-5 accent-amber-600 rounded cursor-pointer shrink-0 mt-1">
+          </div>
+        </div>
+
+        <!-- كارت السعر المعلن ببروفايل الدكتور -->
+        <div class="p-3.5 bg-blue-100/70 border border-blue-300 rounded-2xl flex justify-between items-center text-xs">
+          <div>
+            <span class="font-bold text-blue-950 block">سعر جلسة العلاج الطبيعي والتأهيل:</span>
+            <span class="text-[11px] text-blue-800">محدد رسمياً على بروفايل الطبيب</span>
+          </div>
+          <span class="text-sm font-black text-blue-900 bg-white px-3 py-1 rounded-xl border border-blue-200">
+            350 جنيه / جلسة
+          </span>
+        </div>
+
+        <!-- طريقة الدفع المعتمدة -->
+        <div class="p-4 bg-blue-50/70 rounded-2xl border border-blue-200 space-y-2 text-xs">
+          <div class="flex flex-wrap justify-between items-center gap-2">
+            <span class="font-extrabold text-slate-900">💳 طريقة الدفع (إنستاباي أو فودافون كاش):</span>
+            <span class="font-mono font-black text-blue-900 bg-white px-2.5 py-1 rounded-lg border border-blue-200" dir="ltr">01034562904</span>
+          </div>
+          <select id="pt_payment" class="w-full p-2.5 bg-white border border-slate-300 rounded-xl font-bold outline-none">
+            <option value="إنستاباي (InstaPay) - 01034562904">إنستاباي (InstaPay) على رقم 01034562904</option>
+            <option value="فودافون كاش (Vodafone Cash) - 01034562904">فودافون كاش (Vodafone Cash) على رقم 01034562904</option>
+          </select>
+        </div>
+
+        <button type="submit" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-black text-sm rounded-xl transition-all shadow-md">
+          تأكيد طلب جلسة العلاج الطبيعي والتأهيل ✓
+        </button>
+      </form>
+    </section>
+
+    <!-- 3. فورم حجز الحجامة الطبية -->
+    <section id="cupping-view" class="hidden bg-white rounded-3xl border border-slate-200 shadow-md p-6 sm:p-8 space-y-6 text-right">
+      <div class="border-b border-amber-100 pb-4">
+        <span class="text-xs font-bold text-amber-700 bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-200">الحجامة النبوية والطبية المعقمة</span>
+        <h2 class="text-xl sm:text-2xl font-black text-slate-900 mt-2">فورم طلب جلسة حجامة</h2>
+        <p class="text-xs text-slate-500 mt-0.5">الأسعار بالاتفاق المباشر بين الممارس والمريض</p>
+      </div>
+
+      <form id="cuppingForm" onsubmit="submitCuppingOrder(event)" class="space-y-5">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-slate-50 p-4 rounded-2xl border border-slate-200">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">اسم العميل *</label>
+            <input type="text" id="cup_name" required placeholder="الاسم" class="w-full text-xs p-2.5 bg-white border border-slate-300 rounded-xl outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">السن *</label>
+            <input type="number" id="cup_age" required min="12" max="99" placeholder="العمر" class="w-full text-xs p-2.5 bg-white border border-slate-300 rounded-xl outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">رقم الهاتف *</label>
+            <input type="tel" id="cup_phone" required placeholder="01xxxxxxxxx" class="w-full text-xs p-2.5 bg-white border border-slate-300 rounded-xl outline-none">
+          </div>
+        </div>
+
+        <!-- اللوكيشن الإلزامي للحجامة -->
+        <div class="space-y-3 bg-amber-50/50 p-4 rounded-2xl border border-amber-300">
+          <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-amber-200">
+            <div class="flex items-center gap-2">
+              <h3 class="text-xs sm:text-sm font-bold text-slate-900">عنوان الجلسة واللوكيشن</h3>
+              <span id="cup_loc_badge" class="text-[10px] px-2 py-0.5 rounded-full font-bold bg-rose-100 text-rose-800 border border-rose-300 animate-pulse">
+                مطلوب إلزامي ⚠️
+              </span>
+            </div>
+            <button type="button" onclick="detectGPS('cup_address', 'cup_loc_badge')" class="text-xs font-bold bg-amber-600 hover:bg-amber-700 text-white px-3 py-1.5 rounded-xl shadow-xs transition-colors">
+              📍 تثبيت اللوكيشن عبر خريطة جوجل / GPS
+            </button>
+          </div>
+          <input type="text" id="cup_address" required placeholder="العنوان بالتفصيل لتوجيه الأخصائي" class="w-full text-xs p-2.5 bg-white border border-slate-300 rounded-xl outline-none">
+        </div>
+
+        <!-- أسئلة أمان الحجامة -->
+        <div class="p-4 bg-amber-50/80 rounded-2xl border border-amber-300 space-y-2 text-xs">
+          <span class="font-bold text-amber-950 block">أسئلة فحص الأمان لسلامة الحجامة:</span>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <label class="flex items-center justify-between bg-white p-2.5 rounded-xl border border-amber-200">
+              <span>هل تعاني من ضغط أو سكر؟</span>
+              <select id="cup_sugar_pressure" class="font-bold text-slate-800 border p-1 rounded-md">
+                <option value="لا">لا</option>
+                <option value="نعم">نعم (توجيه لجافة)</option>
+              </select>
+            </label>
+            <label class="flex items-center justify-between bg-white p-2.5 rounded-xl border border-amber-200">
+              <span>هل تعاني من سيولة بالدم؟</span>
+              <select id="cup_blood_thin" class="font-bold text-slate-800 border p-1 rounded-md">
+                <option value="لا">لا</option>
+                <option value="نعم">نعم (توجيه لجافة)</option>
+              </select>
+            </label>
+          </div>
+          <p class="text-[11px] text-amber-900">⚠️ تنبيه: الحالات التي تتناول مميعات دم تخضع لحجامة جافة حفاظاً على الأمان التام.</p>
+        </div>
+
+        <!-- طريقة الدفع المعتمدة -->
+        <div class="p-4 bg-amber-50/70 rounded-2xl border border-amber-200 space-y-2 text-xs">
+          <div class="flex flex-wrap justify-between items-center gap-2">
+            <span class="font-extrabold text-slate-900">💳 طريقة الدفع (إنستاباي أو فودافون كاش):</span>
+            <span class="font-mono font-black text-amber-900 bg-white px-2.5 py-1 rounded-lg border border-amber-200" dir="ltr">01034562904</span>
+          </div>
+          <select id="cup_payment" class="w-full p-2.5 bg-white border border-slate-300 rounded-xl font-bold outline-none">
+            <option value="إنستاباي (InstaPay) - 01034562904">إنستاباي (InstaPay) على رقم 01034562904</option>
+            <option value="فودافون كاش (Vodafone Cash) - 01034562904">فودافون كاش (Vodafone Cash) على رقم 01034562904</option>
+          </select>
+        </div>
+
+        <button type="submit" class="w-full py-3 bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-sm rounded-xl transition-all shadow-md">
+          إرسال طلب الحجامة للمراجعة الطبية ✓
+        </button>
+      </form>
+    </section>
+
+    <!-- 4. دليل الكوادر الطبية (بدون سن، والأسعار بين الممرض والمريض فقط) -->
+    <section id="directory-view" class="hidden space-y-4 text-right">
+      <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-wrap justify-between items-center gap-3">
+        <div>
+          <h2 class="text-xl font-black text-slate-900">دليل طاقم الرعاية الطبية والتأهيل</h2>
+          <p class="text-xs text-slate-500 mt-0.5">طاقم تمريض، أطباء علاج طبيعي، ممارسو حجامة، ومساعدون متدربون</p>
+        </div>
+        <div class="text-xs font-bold text-teal-800 bg-teal-50 px-3 py-1.5 rounded-xl border border-teal-200">
+          طاقم التمريض في خدمة 24 ساعة
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="staff-cards-container">
+        <!-- يتم رسم الكروت بالجافاسكربت -->
+      </div>
+    </section>
+
+    <!-- 5. استمارة الانضمام كمعالج / مساعد -->
+    <section id="join-view" class="hidden bg-white rounded-3xl border border-slate-200 shadow-md p-6 sm:p-8 space-y-6 text-right">
+      <div class="border-b border-emerald-100 pb-4">
+        <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">انضمام الكوادر والمتدربين</span>
+        <h2 class="text-xl sm:text-2xl font-black text-slate-900 mt-2">استمارة التقديم والتوظيف</h2>
+        <p class="text-xs text-slate-500 mt-0.5">ممرض/ة معتمد · طبيب علاج طبيعي · ممارس حجامة · مساعد / متدرب</p>
+      </div>
+
+      <form onsubmit="handleJoinSubmit(event)" class="space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">الاسم بالكامل *</label>
+            <input type="text" required placeholder="الاسم رباعي" class="w-full text-xs p-2.5 bg-white border border-slate-300 rounded-xl outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">رقم الهاتف والواتساب *</label>
+            <input type="tel" required placeholder="01xxxxxxxxx" class="w-full text-xs p-2.5 bg-white border border-slate-300 rounded-xl outline-none">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">الصفة والتخصص *</label>
+            <select class="w-full text-xs p-2.5 bg-white border border-slate-300 rounded-xl outline-none font-bold">
+              <option value="nurse">طاقم تمريض معتمد</option>
+              <option value="pt">طبيب / أخصائي علاج طبيعي</option>
+              <option value="cupping">ممارس حجامة طبية معتمد</option>
+              <option value="assistant">مساعد / متدرب (تدريب ميداني تحت الإشراف)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">الكلية / المعهد وسنة التخرج أو الدراسة *</label>
+            <input type="text" required placeholder="مثال: كلية العلاج الطبيعي جامعة القاهرة 2024" class="w-full text-xs p-2.5 bg-white border border-slate-300 rounded-xl outline-none">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">المحافظات ومناطق التغطية المتاحة لديك *</label>
+          <input type="text" required placeholder="مثال: القاهرة (المعادي، التجمع، حلوان، الجيزة)" class="w-full text-xs p-2.5 bg-white border border-slate-300 rounded-xl outline-none">
+        </div>
+
+        <button type="submit" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-sm rounded-xl transition-all shadow-md">
+          إرسال طلب الانضمام للمراجعة الإدارية ✓
+        </button>
+      </form>
+    </section>
+
+    <!-- 6. لوحة الإدارة لمتابعة الطلبات وتعيين الكوادر وتقييم المشرفين -->
+    <section id="admin-view" class="hidden space-y-4 text-right">
+      <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-wrap justify-between items-center gap-3">
+        <div>
+          <h2 class="text-xl font-black text-slate-900">لوحة تحكم إدارة الطلبات والجودة</h2>
+          <p class="text-xs text-slate-500 mt-0.5">متابعة كافة طلبات التمريض، العلاج الطبيعي، والحجامة وتقييم المشرفين</p>
+        </div>
+        <button onclick="clearOrders()" class="text-xs text-rose-600 border border-rose-200 hover:bg-rose-50 px-3 py-1.5 rounded-xl font-bold">
+          مسح السجل المؤقت
+        </button>
+      </div>
+
+      <div id="orders-container" class="space-y-3">
+        <!-- يتم ملء الطلبات بالجافاسكربت -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- الفوتر -->
+  <footer class="bg-slate-900 text-slate-400 py-8 px-4 text-xs text-center border-t border-slate-800 space-y-2 mt-auto">
+    <div class="flex justify-center gap-4 text-slate-300 font-bold mb-2">
+      <a href="https://www.facebook.com/share/19jXU5Qqk5/?mibextid=wwXIfr" target="_blank" class="hover:text-blue-400">فيسبوك</a>
+      <span>·</span>
+      <a href="https://www.instagram.com/passantnursing?exln=bGVhdDk0ZWpydjZz&utm_source=qr" target="_blank" class="hover:text-pink-400">انستغرام</a>
+      <span>·</span>
+      <a href="mailto:passantnursing@gmail.com" class="hover:text-red-400">passantnursing@gmail.com</a>
+    </div>
+    <p>طاقم التمريض في خدمة 24 ساعة · نغطي كافة جميع المحافظات في مصر</p>
+    <p class="text-slate-600 font-mono text-[10px]">© 2026 Passant Healthcare. All Rights Reserved.</p>
+  </footer>
+
+  <!-- كود الجافاسكربت الكامل للمنصة -->
+  <script>
+    // 1. قاعدة بيانات الطلبات
+    let ordersList = JSON.parse(localStorage.getItem('passant_orders_v2') || '[]');
+    if (ordersList.length === 0) {
+      ordersList = [
+        {
+          id: 'ORD-101',
+          type: 'تمريض منزلي',
+          name: 'أحمد سعيد عبد الرحمن',
+          phone: '01011223344',
+          service: 'تركيب كانيولا وإعطاء محاليل وريدية',
+          location: 'القاهرة - المعادي شارع النصر (GPS مثبت ✅)',
+          medNeeded: 'نعم (كانيولا زرقاء + محلول رينجر)',
+          medServiceFee: '30 ج.م خدمة إحضار أدوية',
+          status: 'جديد'
+        },
+        {
+          id: 'ORD-102',
+          type: 'علاج طبيعي',
+          name: 'الحاجة فتحية إبراهيم',
+          phone: '01223344556',
+          service: 'تأهيل جلطات مخ وشلل نصفي',
+          diagnosis: '3. تشخيص الحالة السابق: جلطة دماغية سابقة من 3 شهور',
+          assistant: 'نعم (مطلوب مساعد متدرب للمساعدة في السند)',
+          price: '350 جنيه / جلسة (محدد بالبروفايل)',
+          location: 'الجيزة - الدقي شارع مصدق (GPS مثبت ✅)',
+          status: 'تم تعيين طبيب'
+        }
+      ];
+      localStorage.setItem('passant_orders_v2', JSON.stringify(ordersList));
+    }
+
+    // 2. قاعدة بيانات الكوادر مع تقييم المشرفين وبدون سن، وسعر الجلسة للأطباء فقط
+    const staffMembers = [
+      {
+        name: 'د. سامح رضوان الشرقاوي',
+        role: 'طبيب / أخصائي علاج طبيعي 🏃',
+        institution: 'ماجستير العلاج الطبيعي والتأهيل الحركي - جامعة القاهرة',
+        experience: '9 سنوات خبرة',
+        supervisorRating: '5.0 / 5.0 (فئة أ - جودة تنفيذ فائقة)',
+        supervisorNotes: 'أداء احترافي ممتاز في تأهيل حالات الجلطات واستعادة المدى الحركي بأمان تام.',
+        price: '350 جنيه / جلسة (محدد ببروفايل الطبيب)'
+      },
+      {
+        name: 'أحمد محمود الفياض',
+        role: 'طاقم تمريض معتمد 🩺',
+        institution: 'بكالوريوس علوم التمريض - جامعة عين شمس',
+        experience: '7 سنوات خبرة',
+        supervisorRating: '4.95 / 5.0 (فئة أ - التزام فائق بالتعقيم)',
+        supervisorNotes: 'كفاءة استثنائية في سحب العينات وتركيب الكانيولا في الأوردة الصعبة بدون ألم.',
+        price: 'بالاتفاق المباشر العادل بين الممرض والعميل'
+      },
+      {
+        name: 'د. هبة عبد الرحمن النجار',
+        role: 'طبيبة علاج طبيعي وتأهيل أطفال 🏃',
+        institution: 'دكتوراه العلاج الطبيعي - القصر العيني',
+        experience: '8 سنوات خبرة',
+        supervisorRating: '5.0 / 5.0 (فئة أ - امتياز طبي وتأهيلي)',
+        supervisorNotes: 'خبرة نادرة في تأهيل التصلب المتعدد وتأخر المشي لدى الأطفال.',
+        price: '350 جنيه / جلسة (محدد ببروفايل الطبيب)'
+      },
+      {
+        name: 'كريم ممدوح الصاوي',
+        role: 'مساعد ومتدرب (مسار علاج طبيعي) 🎓',
+        institution: 'طالب بسنة الامتياز - كلية العلاج الطبيعي جامعة القاهرة',
+        experience: 'تدريب عملي ميداني مستمر',
+        supervisorRating: '4.9 / 5.0 (ممتاز وملتزم)',
+        supervisorNotes: 'قوي البنية، متعاون للغاية في سند وتقليب المرضى أثناء التمارين تحت إشراف الطبيب.',
+        price: 'بالاتفاق المباشر العادل بين الممارس والعميل'
+      }
+    ];
+
+    // تبديل الواجهات
+    function switchTab(viewId) {
+      const views = ['home-view', 'nursing-view', 'pt-view', 'cupping-view', 'directory-view', 'join-view', 'admin-view'];
+      views.forEach(v => {
+        const el = document.getElementById(v);
+        if (el) el.classList.add('hidden');
+      });
+      const activeEl = document.getElementById(viewId);
+      if (activeEl) activeEl.classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      if (viewId === 'directory-view') renderStaff();
+      if (viewId === 'admin-view') renderAdminOrders();
+    }
+
+    // تفعيل إظهار تفاصيل إحضار الأدوية
+    function toggleMedInput() {
+      const isChecked = document.getElementById('nurse_med_needed').checked;
+      const box = document.getElementById('nurse_med_box');
+      if (isChecked) box.classList.remove('hidden');
+      else box.classList.add('hidden');
+    }
+
+    // التقاط الـ GPS وتأكيد اللوكيشن الإلزامي
+    function detectGPS(inputId, badgeId) {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          pos => {
+            const lat = pos.coords.latitude.toFixed(4);
+            const lng = pos.coords.longitude.toFixed(4);
+            document.getElementById(inputId).value = `الموقع المعتمد عبر خريطة جوجل (${lat}, ${lng})`;
+            const badge = document.getElementById(badgeId);
+            if (badge) {
+              badge.className = 'text-[10px] px-2 py-0.5 rounded-full font-bold bg-emerald-100 text-emerald-800 border border-emerald-300';
+              badge.innerText = 'تم تأكيد وتثبيت الموقع ✅';
+            }
+            alert(`📍 تم التقاط وتثبيت اللوكيشن الإلزامي بنجاح!\nالإحداثيات: ${lat}, ${lng}\nتم ربط الموقع بخريطة جوجل بدقة.`);
+          },
+          err => {
+            document.getElementById(inputId).value = 'تم التثبيت يدوياً على الخريطة (القاهرة)';
+            const badge = document.getElementById(badgeId);
+            if (badge) {
+              badge.className = 'text-[10px] px-2 py-0.5 rounded-full font-bold bg-emerald-100 text-emerald-800 border border-emerald-300';
+              badge.innerText = 'تم تأكيد وتثبيت الموقع ✅';
+            }
+            alert('تم تثبيت الموقع المعتمد، يرجى استكمال تفاصيل الشارع والعمارة.');
+          }
+        );
+      }
+    }
+
+    // إرسال طلب تمريض
+    function submitNursingOrder(e) {
+      e.preventDefault();
+      const medCheck = document.getElementById('nurse_med_needed').checked;
+      const order = {
+        id: 'ORD-' + Math.floor(1000 + Math.random() * 9000),
+        type: 'تمريض منزلي',
+        name: document.getElementById('nurse_name').value,
+        phone: document.getElementById('nurse_phone').value,
+        service: document.getElementById('nurse_service').value,
+        location: document.getElementById('nurse_gov').value + ' - ' + document.getElementById('nurse_address').value,
+        medNeeded: medCheck ? `نعم (${document.getElementById('nurse_med_details').value || 'مستلزمات عامة'})` : 'لا',
+        medServiceFee: medCheck ? '30 ج.م خدمة إحضار أدوية' : 'بدون أدوية',
+        payment: document.getElementById('nurse_payment').value,
+        status: 'جديد'
+      };
+      ordersList.unshift(order);
+      saveOrders();
+      alert(`✅ تم إرسال طلب زيارة التمريض بنجاح!\nرقم الطلب: ${order.id}\nطريقة الدفع: ${order.payment}\n${medCheck ? 'تمت إضافة خدمة إحضار الأدوية (+30 ج.م) وسيتم إحضار فاتورة الصيدلية.\n' : ''}سيتم التواصل معك هاتفياً فوراً.`);
+      document.getElementById('nursingForm').reset();
+      switchTab('admin-view');
+    }
+
+    // إرسال طلب علاج طبيعي
+    function submitPtOrder(e) {
+      e.preventDefault();
+      const assistantCheck = document.getElementById('pt_assistant').checked;
+      const order = {
+        id: 'PT-' + Math.floor(1000 + Math.random() * 9000),
+        type: 'علاج طبيعي',
+        name: document.getElementById('pt_name').value,
+        phone: document.getElementById('pt_phone').value,
+        service: 'جلسة تأهيل وعلاج طبيعي منزلي',
+        diagnosis: `3. تشخيص الحالة السابق: ${document.getElementById('pt_diagnosis').value} (${document.getElementById('pt_mobility').value})`,
+        assistant: assistantCheck ? 'نعم (مطلوب مساعد متدرب مرافق)' : 'بدون مساعد',
+        price: '350 جنيه / جلسة (محدد ببروفايل دكتور العلاج الطبيعي)',
+        payment: document.getElementById('pt_payment').value,
+        location: document.getElementById('pt_address').value,
+        status: 'جديد'
+      };
+      ordersList.unshift(order);
+      saveOrders();
+      alert(`✅ تم إرسال طلب جلسة العلاج الطبيعي بنجاح!\nرقم الطلب: ${order.id}\nسعر الجلسة: 350 جنيه / جلسة\nطريقة الدفع: ${order.payment}\nالتشخيص المسجل: ${document.getElementById('pt_diagnosis').value}`);
+      document.getElementById('ptForm').reset();
+      switchTab('admin-view');
+    }
+
+    // إرسال طلب حجامة
+    function submitCuppingOrder(e) {
+      e.preventDefault();
+      const sugarPressure = document.getElementById('cup_sugar_pressure').value;
+      const bloodThin = document.getElementById('cup_blood_thin').value;
+      const isRestricted = (sugarPressure === 'نعم' || bloodThin === 'نعم');
+      const order = {
+        id: 'CUP-' + Math.floor(1000 + Math.random() * 9000),
+        type: 'حجامة طبية',
+        name: document.getElementById('cup_name').value,
+        phone: document.getElementById('cup_phone').value,
+        service: isRestricted ? 'حجامة جافة / تدليكية (لوجود ضغط/سكر/سيولة)' : 'حجامة دموية معقمة',
+        payment: document.getElementById('cup_payment').value,
+        location: document.getElementById('cup_address').value,
+        status: 'جديد'
+      };
+      ordersList.unshift(order);
+      saveOrders();
+      alert(`✅ تم تسجيل طلب الحجامة بنجاح!\nرقم الطلب: ${order.id}\nطريقة الدفع: ${order.payment}\nالنوع المقترح: ${order.service}\nسيتم مراجعة الحالة والتواصل معك.`);
+      document.getElementById('cuppingForm').reset();
+      switchTab('admin-view');
+    }
+
+    // انضمام كمعالج
+    function handleJoinSubmit(e) {
+      e.preventDefault();
+      alert('✅ تم استلام طلب انضمامك بنجاح! سيقوم فريق الإشراف والمتابعة الطبية بمراجعة الأوراق والتواصل معك لإجراء المقابلة.');
+      switchTab('home-view');
+    }
+
+    // رسم كروت الكوادر
+    function renderStaff() {
+      const container = document.getElementById('staff-cards-container');
+      container.innerHTML = staffMembers.map(s => `
+        <div class="p-5 bg-white rounded-2xl border border-slate-200 shadow-xs space-y-3 text-right">
+          <div class="flex justify-between items-start gap-2">
+            <div>
+              <h3 class="font-black text-base text-slate-900">${s.name}</h3>
+              <span class="text-xs font-bold text-teal-700 bg-teal-50 px-2.5 py-0.5 rounded-lg border border-teal-200 inline-block mt-1">
+                ${s.role}
+              </span>
+            </div>
+            <span class="text-xs bg-amber-100 text-amber-900 font-bold px-2.5 py-1 rounded-xl">
+              ⭐ ${s.supervisorRating}
+            </span>
+          </div>
+
+          <p class="text-xs text-slate-600 font-medium">${s.institution}</p>
+          <div class="text-[11px] text-slate-500 font-semibold">• سنوات الخبرة: ${s.experience}</div>
+
+          <!-- تقييم المشرفين الميداني -->
+          <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200 text-[11px] text-slate-700">
+            <span class="font-bold text-teal-900 block mb-0.5">تقييم المشرف الميداني:</span>
+            "${s.supervisorNotes}"
+          </div>
+
+          <!-- السعر: ميزة حصرية للعلاج الطبيعي والباقي بالاتفاق -->
+          <div class="pt-2 border-t border-slate-100 flex justify-between items-center text-xs">
+            <span class="text-slate-500">التسعيرة:</span>
+            <span class="font-black ${s.price.includes('350') ? 'text-blue-900 bg-blue-50 px-2.5 py-1 rounded-lg border border-blue-200' : 'text-teal-800'}">
+              ${s.price}
+            </span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // رسم الطلبات في لوحة الإدارة
+    function renderAdminOrders() {
+      const container = document.getElementById('orders-container');
+      if (ordersList.length === 0) {
+        container.innerHTML = '<div class="text-center py-8 text-slate-400 text-xs">لا توجد طلبات مسجلة</div>';
+        return;
+      }
+      container.innerHTML = ordersList.map(o => `
+        <div class="p-4 bg-white rounded-2xl border border-slate-200 shadow-2xs space-y-2 text-right">
+          <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-100 pb-2">
+            <div>
+              <span class="font-mono font-bold text-xs bg-slate-100 px-2 py-0.5 rounded text-slate-800">${o.id}</span>
+              <strong class="text-xs text-teal-800 mr-2">${o.type}</strong>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold text-slate-600">الحالة:</span>
+              <select onchange="changeStatus('${o.id}', this.value)" class="text-xs font-bold p-1 rounded-lg border border-slate-300 bg-slate-50">
+                <option value="جديد" ${o.status === 'جديد' ? 'selected' : ''}>جديد</option>
+                <option value="تم تعيين ممرض / طبيب" ${o.status.includes('تم تعيين') ? 'selected' : ''}>تم تعيين معالج</option>
+                <option value="مكتمل" ${o.status === 'مكتمل' ? 'selected' : ''}>مكتمل ✅</option>
+                <option value="ملغي" ${o.status === 'ملغي' ? 'selected' : ''}>ملغي</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+            <div>
+              <span class="text-slate-400 block text-[10px]">العميل والهاتف:</span>
+              <strong class="text-slate-900">${o.name}</strong>
+              <div class="font-mono text-teal-700 font-bold mt-0.5">📞 ${o.phone}</div>
+            </div>
+            <div>
+              <span class="text-slate-400 block text-[10px]">الخدمة والتفاصيل:</span>
+              <span class="font-bold text-slate-800">${o.service}</span>
+              ${o.diagnosis ? `<div class="text-blue-900 text-[11px] font-semibold mt-0.5">${o.diagnosis}</div>` : ''}
+              ${o.assistant ? `<div class="text-amber-800 text-[11px] font-semibold">${o.assistant}</div>` : ''}
+              ${o.medNeeded && o.medNeeded !== 'لا' ? `<div class="text-teal-900 text-[11px] font-bold">💊 أدوية: ${o.medNeeded} (+30 ج.م خدمة)</div>` : ''}
+              ${o.price ? `<div class="text-blue-950 text-[11px] font-black">${o.price}</div>` : ''}
+              <div class="text-teal-800 text-[11px] font-bold">💳 الدفع: ${o.payment || 'إنستاباي / فودافون كاش - 01034562904'}</div>
+            </div>
+            <div>
+              <span class="text-slate-400 block text-[10px]">الموقع واللوكيشن:</span>
+              <span class="text-slate-700 text-[11px]">${o.location}</span>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function changeStatus(id, newStatus) {
+      const item = ordersList.find(x => x.id === id);
+      if (item) {
+        item.status = newStatus;
+        saveOrders();
+        renderAdminOrders();
+      }
+    }
+
+    function saveOrders() {
+      localStorage.setItem('passant_orders_v2', JSON.stringify(ordersList));
+      const badge = document.getElementById('orders-badge');
+      if (badge) badge.innerText = ordersList.length;
+    }
+
+    function clearOrders() {
+      if (confirm('هل تريد مسح سجل الطلبات؟')) {
+        ordersList = [];
+        saveOrders();
+        renderAdminOrders();
+      }
+    }
+
+    // البدء على الصفحة الرئيسية
+    saveOrders();
+  </script>
+</body>
+</html>
